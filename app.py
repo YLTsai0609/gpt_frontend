@@ -1,17 +1,13 @@
 import os
 
-import openai
 from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template, request
+from openai import OpenAI
 
 # 載入 .env 檔案中的環境變數
 load_dotenv()
 
 app = Flask(__name__)
-
-# 設定 OpenAI API 金鑰
-openai.api_key = os.getenv("OPENAI_API_KEY")
-os.getenv("API_KEY")
 
 
 @app.route("/")
@@ -22,11 +18,16 @@ def index():
 @app.route("/chat", methods=["POST"])
 def chat():
     user_input = request.json.get("message")
-    response = openai.ChatCompletion.create(
-        model="gpt-4", messages=[{"role": "user", "content": user_input}]
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": user_input},
+        ],
     )
     # 假設回應中包含文字和可能的圖片 URL
-    chat_response = response.choices[0].message["content"]
+    chat_response = response.choices[0].message.content
     return jsonify({"response": chat_response})
 
 

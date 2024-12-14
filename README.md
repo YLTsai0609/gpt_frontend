@@ -72,5 +72,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 - [ ] - hello world for openai chats
 - [ ] - chatgpt response with async text message
-- [ ] - deployment to andoird app
+- [ ] - deployment to andoird app (PWA)
 - [ ] - chatgpt response with image

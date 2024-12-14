@@ -15,7 +15,20 @@
                 body: JSON.stringify({ message: message })
             });
             const data = await response.json();
-            document.getElementById('response').innerHTML = data.response;
+
+            // Append the user's message to the chat history
+            const chatHistory = document.getElementById('chat-history');
+            const userMessage = document.createElement('div');
+            userMessage.textContent = `You: ${message}`;
+            chatHistory.appendChild(userMessage);
+
+            // Append the response from ChatGPT to the chat history
+            const botResponse = document.createElement('div');
+            botResponse.textContent = `ChatGPT: ${data.response}`;
+            chatHistory.appendChild(botResponse);
+
+            // Clear the input field
+            document.getElementById('message').value = '';
         }
     </script>
 </head>
@@ -24,7 +37,10 @@
     <h1>Chat with ChatGPT</h1>
     <textarea id="message" rows="4" cols="50"></textarea><br>
     <button onclick="sendMessage()">Send</button>
-    <div id="response"></div>
+    <div id="chat-history"
+        style="border: 1px solid #ccc; padding: 10px; margin-top: 10px; max-height: 300px; overflow-y: auto;">
+        <!-- Chat history will be appended here -->
+    </div>
 </body>
 
 </html>
